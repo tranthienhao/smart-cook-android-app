@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">smartcook</string>
+    <string name="food">Món ăn</string>
+    <string name="menu">Thực đơn</string>
+    <string name="category">Danh mục</string>
+    <string name="what_to_eat">Ăn gì hôm nay?</string>
+    <string name="menu_suggesstion">Thực đơn gợi ý</string>
+    <string name="food_category">Danh mục món ăn</string>
+    <string name="collection">Bộ sưu tập</string>
+    <string name="hello">Xin chào! Hãy để tôi giúp bạn chọn thực đơn nhé!</string>
+    <string name="create_menu">Tạo thực đơn tuần</string>
+    <string name="how_to_cook">Cách làm</string>
+    <string name="ingredient">Nguyên liệu</string>
+    <string name="video">Video</string>
+    <string name="notice">*Vui lòng làm đúng từng bước để được kết quả tốt nhất!</string>
+    <string name="menu_notice">Bạn hãy ấn vào hình để xem công thức cụ thể cho từng món nhé!</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
