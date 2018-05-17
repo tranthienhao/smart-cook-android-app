@@ -7,9 +7,10 @@
     android:gravity="center">
     <TextView
         android:id="@+id/tv_amount"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:gravity="right"
         android:textColor="@color/colorBlack"
         android:text="12 gram"
         android:textStyle="bold" />
@@ -18,7 +19,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
         android:text="thịt bò"
+        android:layout_weight="1"
         android:textColor="@color/colorBlack"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"/>
 </LinearLayout>

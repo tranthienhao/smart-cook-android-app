@@ -50,13 +50,13 @@ public class GetFoodByCategoryActivity extends AppCompatActivity{
     }
 
     private void prepareData() {
-        Food food = new Food();
-        listFood.add(food);
-        listFood.add(food);
-        listFood.add(food);
-        recyclerFood.setLayoutManager(new GridLayoutManager(getBaseContext(), 1));
-        foodAdapter = new FoodAdapter(getBaseContext(),listFood);
-        recyclerFood.setNestedScrollingEnabled(false);
-        recyclerFood.setAdapter(foodAdapter);
+//        Food food = new Food();
+//        listFood.add(food);
+//        listFood.add(food);
+//        listFood.add(food);
+//        recyclerFood.setLayoutManager(new GridLayoutManager(getBaseContext(), 1));
+//        foodAdapter = new FoodAdapter(getBaseContext(),listFood);
+//        recyclerFood.setNestedScrollingEnabled(false);
+//        recyclerFood.setAdapter(foodAdapter);
     }
 }

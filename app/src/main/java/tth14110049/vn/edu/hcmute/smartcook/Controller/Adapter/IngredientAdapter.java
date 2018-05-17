@@ -20,6 +20,7 @@ import tth14110049.vn.edu.hcmute.smartcook.R;
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder> {
     private Context context;
     private List<Ingredient> ingredientList;
+    private int numberOfPeople;
 
     public class IngredientViewHolder extends RecyclerView.ViewHolder {
         private TextView tvName, tvAmount;
@@ -32,9 +33,10 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
     }
 
 
-    public IngredientAdapter(Context context, List<Ingredient> ingredientList) {
+    public IngredientAdapter(Context context, List<Ingredient> ingredientList, int numberOfPeople) {
         this.context = context;
         this.ingredientList = ingredientList;
+        this.numberOfPeople = numberOfPeople;
     }
 
     @Override
@@ -48,8 +50,8 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
     @Override
     public void onBindViewHolder(IngredientViewHolder holder, int position) {
         Ingredient ingredient = ingredientList.get(position);
-//        holder.tvName.setText(""+ position);
-//        holder.tvAmount.setText("Đây là bước"+ position);
+        holder.tvName.setText(ingredient.getIngredientName());
+        holder.tvAmount.setText(ingredient.getAmount()*numberOfPeople +" "+ ingredient.getUnit());
     }
 
     @Override

@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
@@ -15,6 +18,7 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
 import com.google.android.youtube.player.YouTubePlayerView;
+import com.squareup.picasso.Picasso;
 
 
 import java.util.ArrayList;
@@ -22,6 +26,7 @@ import java.util.List;
 
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.IngredientAdapter;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.StepAdapter;
+import tth14110049.vn.edu.hcmute.smartcook.Model.Food;
 import tth14110049.vn.edu.hcmute.smartcook.Model.Ingredient;
 import tth14110049.vn.edu.hcmute.smartcook.Model.Step;
 import tth14110049.vn.edu.hcmute.smartcook.R;
@@ -31,22 +36,33 @@ import tth14110049.vn.edu.hcmute.smartcook.YoutubeConfig;
  * Created by Hao Tran Thien on 5/8/2018.
  */
 
-public class FoodDetailsActivity  extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
+public class FoodDetailsActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
     ImageButton btnBack;
+    Button btnSubPerson, btnAddPerson;
     YouTubePlayerFragment youTubePlayerFragment;
     ToggleButton toggleStep, toggleVideo, toggleIngredient;
     LinearLayout layoutStep, layoutIngredient, layoutVideo;
     private RecyclerView recyclerStep;
     private RecyclerView recyclerIngredient;
-    private List<Step> listStep = new ArrayList<>();
-    private List<Ingredient> listIngredient = new ArrayList<>();
     private StepAdapter stepAdapter;
     private IngredientAdapter ingredientAdapter;
+    private TextView tvToolbarFoodName, tvFoodName, tvCategoryName, tvCookTime, tvDescription, tvNumberOfPeople;
+    private ImageView ivFoodImage;
+    private Food foodDetails;
+    private List<Step> listStep = new ArrayList<>();
+    private List<Ingredient> listIngredient = new ArrayList<>();
+    private int numberOfPeople = 1; // số người ăn bữa
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_details);
+
+        //get extra
+        Intent intent = getIntent();
+        foodDetails = (Food) intent.getSerializableExtra("Food");
+        listStep = foodDetails.getStep();
+        listIngredient = foodDetails.getIngredient();
 
         //set the view
         btnBack = findViewById(R.id.btn_back);
@@ -58,6 +74,15 @@ public class FoodDetailsActivity  extends YouTubeBaseActivity implements YouTube
         layoutStep = findViewById(R.id.layout_step);
         layoutIngredient = findViewById(R.id.layout_ingredient);
         layoutVideo = findViewById(R.id.layout_video);
+        tvToolbarFoodName = findViewById(R.id.tv_toolbar_food_name);
+        tvFoodName = findViewById(R.id.tv_food_name);
+        tvCategoryName = findViewById(R.id.tv_category_name);
+        tvCookTime = findViewById(R.id.tv_cook_time);
+        tvDescription = findViewById(R.id.tv_food_description);
+        tvNumberOfPeople = findViewById(R.id.tv_number_of_people);
+        ivFoodImage = findViewById(R.id.iv_food_image);
+        btnSubPerson = findViewById(R.id.btn_sub_person);
+        btnAddPerson = findViewById(R.id.btn_add_person);
 
         //youtube fragment
         youTubePlayerFragment = (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.fragment_youtube_player);
@@ -66,38 +91,62 @@ public class FoodDetailsActivity  extends YouTubeBaseActivity implements YouTube
         //toggle click listener
         toggleStep.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-               if(isChecked){
-                   toggleIngredient.setChecked(false);
-                   toggleVideo.setChecked(false);
-                   layoutStep.setVisibility(View.VISIBLE);
-               }
-               if(!isChecked){
-                   layoutStep.setVisibility(View.GONE);
-               }
+                if (isChecked) {
+                    toggleIngredient.setChecked(false);
+                    toggleVideo.setChecked(false);
+                    layoutStep.setVisibility(View.VISIBLE);
+                }
+                if (!isChecked) {
+                    layoutStep.setVisibility(View.GONE);
+                }
             }
         });
         toggleIngredient.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-               if(isChecked){
-                   toggleStep.setChecked(false);
-                   toggleVideo.setChecked(false);
-                   layoutIngredient.setVisibility(View.VISIBLE);
-               }
-               if(!isChecked){
-                   layoutIngredient.setVisibility(View.GONE);
-               }
+                if (isChecked) {
+                    toggleStep.setChecked(false);
+                    toggleVideo.setChecked(false);
+                    layoutIngredient.setVisibility(View.VISIBLE);
+                }
+                if (!isChecked) {
+                    layoutIngredient.setVisibility(View.GONE);
+                }
             }
         });
         toggleVideo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-               if(isChecked){
-                   toggleIngredient.setChecked(false);
-                   toggleStep.setChecked(false);
-                   layoutVideo.setVisibility(View.VISIBLE);
-               }
-               if(!isChecked){
-                   layoutVideo.setVisibility(View.GONE);
-               }
+                if (isChecked) {
+                    toggleIngredient.setChecked(false);
+                    toggleStep.setChecked(false);
+                    layoutVideo.setVisibility(View.VISIBLE);
+                }
+                if (!isChecked) {
+                    layoutVideo.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        //btn sub person click: Giảm số lượng người ăn
+        btnSubPerson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (numberOfPeople > 1) {
+                    numberOfPeople--;
+                    tvNumberOfPeople.setText("Cho " + numberOfPeople + " người");
+                    ingredientAdapter = new IngredientAdapter(getBaseContext(), listIngredient, numberOfPeople);
+                    recyclerIngredient.setAdapter(ingredientAdapter);
+                }
+            }
+        });
+
+        //btn add person click: Tăng số lượng người ăn
+        btnAddPerson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                numberOfPeople++;
+                tvNumberOfPeople.setText("Cho " + numberOfPeople + " người");
+                ingredientAdapter = new IngredientAdapter(getBaseContext(), listIngredient, numberOfPeople);
+                recyclerIngredient.setAdapter(ingredientAdapter);
             }
         });
 
@@ -109,34 +158,44 @@ public class FoodDetailsActivity  extends YouTubeBaseActivity implements YouTube
             }
         });
         toggleStep.setChecked(true);
+
+        //set data
         prepareData();
     }
 
     private void prepareData() {
-        Step step = new Step();
-        listStep.add(step);
-        listStep.add(step);
-        listStep.add(step);
-        listStep.add(step);
+        //set text
+        tvToolbarFoodName.setText(foodDetails.getName());
+        tvFoodName.setText(foodDetails.getName());
+        tvCategoryName.setText(foodDetails.getCategoryName());
+        tvCookTime.setText(foodDetails.getCookingTime());
+        tvDescription.setText(foodDetails.getDescription());
+
+        //set food image
+        if (foodDetails.getImage() != null)
+            Picasso.with(getBaseContext())
+                    .load(foodDetails.getImage())
+                    .fit()
+                    .centerCrop()
+                    .into(ivFoodImage);
+
+        //set Step Adapter
         recyclerStep.setLayoutManager(new GridLayoutManager(getBaseContext(), 1));
-        stepAdapter = new StepAdapter(getBaseContext(),listStep);
+        stepAdapter = new StepAdapter(getBaseContext(), listStep);
         recyclerStep.setNestedScrollingEnabled(false);
         recyclerStep.setAdapter(stepAdapter);
 
-        Ingredient ingredient = new Ingredient();
-        listIngredient.add(ingredient);
-        listIngredient.add(ingredient);
-        listIngredient.add(ingredient);
-        listIngredient.add(ingredient);
+        //set Ingredient Adapter
         recyclerIngredient.setLayoutManager(new GridLayoutManager(getBaseContext(), 1));
-        ingredientAdapter = new IngredientAdapter(getBaseContext(),listIngredient);
+        ingredientAdapter = new IngredientAdapter(getBaseContext(), listIngredient, numberOfPeople);
         recyclerIngredient.setNestedScrollingEnabled(false);
         recyclerIngredient.setAdapter(ingredientAdapter);
     }
 
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-        youTubePlayer.cueVideo("K2c0DGzYRdc");
+        //get youtube link
+        youTubePlayer.cueVideo(foodDetails.getVideo());
     }
 
     @Override
@@ -155,6 +214,7 @@ public class FoodDetailsActivity  extends YouTubeBaseActivity implements YouTube
             }
         }
     }
+
     protected YouTubePlayer.Provider getYoutubePlayerProvider() {
         return (YouTubePlayerView) findViewById(R.id.fragment_youtube_player);
     }

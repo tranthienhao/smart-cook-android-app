@@ -51,8 +51,8 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
     @Override
     public void onBindViewHolder(StepViewHolder holder, int position) {
         Step step = stepsList.get(position);
-        holder.tvNumber.setText(""+ position);
-        holder.tvContent.setText("Đây là bước"+ position);
+        holder.tvNumber.setText(step.getNumber()+".");
+        holder.tvContent.setText(step.getContent());
     }
 
     @Override

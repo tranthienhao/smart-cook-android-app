@@ -7,15 +7,18 @@ package tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.List;
 
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Activity.FoodDetailsActivity;
@@ -52,23 +55,27 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_food, parent, false);
 
-        // on item click
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                context.startActivity(new Intent(context, FoodDetailsActivity.class));
-            }
-        });
         return new FoodViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(FoodViewHolder holder, int position) {
-        Food food = foodsList.get(position);
+    public void onBindViewHolder(FoodViewHolder holder, final int position) {
+        final Food food = foodsList.get(position);
         holder.tvName.setText(food.getName());
         holder.tvDescription.setText(food.getDescription());
         holder.tvCategory.setText(food.getCategoryName());
         holder.tvCookTime.setText(food.getCookingTime());
+
+        // on item click
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, FoodDetailsActivity.class);
+                intent.putExtra("Food", food);
+                context.startActivity(intent);
+//                Toast.makeText(context,food.getStep().get(0).getContent(),Toast.LENGTH_LONG).show();
+            }
+        });
 
         //load image
         if (food.getImage() != null) {

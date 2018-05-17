@@ -25,6 +25,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:scrollHorizontally="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit ="marquee_forever"
             android:textAllCaps="true"
             android:textColor="@color/colorWhite"
             android:textSize="18sp"
@@ -41,7 +48,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/backdrop"
+                android:id="@+id/iv_food_image"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:fitsSystemWindows="true"
@@ -85,6 +92,7 @@
                 android:textStyle="italic" />
 
             <TextView
+                android:layout_marginTop="10dp"
                 android:id="@+id/tv_food_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -178,7 +186,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="visible">
+                        android:visibility="gone">
 
                         <RelativeLayout
                             android:layout_width="match_parent"

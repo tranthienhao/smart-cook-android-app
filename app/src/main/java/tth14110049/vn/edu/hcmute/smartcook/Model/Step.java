@@ -7,7 +7,9 @@ package tth14110049.vn.edu.hcmute.smartcook.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Step {
+import java.io.Serializable;
+
+public class Step implements Serializable{
 
     @SerializedName("Number")
     @Expose
