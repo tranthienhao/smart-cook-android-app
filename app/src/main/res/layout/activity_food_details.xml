@@ -217,7 +217,7 @@
                                 android:layout_height="40dp"
                                 android:text="-"
                                 android:textColor="@color/colorAccent"
-                                android:background="@drawable/bg_button_sub"
+                                android:background="@drawable/bg_btn_sub"
                                 android:layout_toStartOf="@id/btn_add_person"
                                 android:layout_toLeftOf="@id/btn_add_person"
                                 />
@@ -228,7 +228,7 @@
                                 android:layout_alignParentRight="true"
                                 android:layout_height="40dp"
                                 android:textColor="@color/colorAccent"
-                                android:background="@drawable/bg_button_add"
+                                android:background="@drawable/bg_btn_add"
                                 android:text="+"
                                 />
                         </RelativeLayout>
