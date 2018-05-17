@@ -28,7 +28,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
     private List<Food> foodsList;
 
     public class FoodViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvName, tvDescription, tvCategory;
+        private TextView tvName, tvDescription, tvCategory, tvCookTime;
         private ImageView ivFoodImage;
 
         public FoodViewHolder(View view) {
@@ -36,6 +36,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
             tvName = view.findViewById(R.id.tv_food_name);
             tvCategory = view.findViewById(R.id.tv_category_name);
             tvDescription = view.findViewById(R.id.tv_food_description);
+            tvCookTime = view.findViewById(R.id.tv_cook_time);
             ivFoodImage = view.findViewById(R.id.iv_food_image);
         }
     }
@@ -64,14 +65,15 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
     @Override
     public void onBindViewHolder(FoodViewHolder holder, int position) {
         Food food = foodsList.get(position);
-        holder.tvName.setText("THỊT KHO HỘT VỊT");
-        holder.tvDescription.setText("Thịt kho có lẽ đã quá quen thuộc...");
-        holder.tvCategory.setText("Món kho");
+        holder.tvName.setText(food.getName());
+        holder.tvDescription.setText(food.getDescription());
+        holder.tvCategory.setText(food.getCategoryName());
+        holder.tvCookTime.setText(food.getCookingTime());
 
-//        //load image
-//        if (food.getFoodImage() != null) {
-//            Picasso.with(context).load(food.getFoodImage()).fit().centerCrop().into(holder.ivFoodImage);
-//        }
+        //load image
+        if (food.getImage() != null) {
+            Picasso.with(context).load(food.getImage()).fit().centerCrop().into(holder.ivFoodImage);
+        }
     }
 
     @Override

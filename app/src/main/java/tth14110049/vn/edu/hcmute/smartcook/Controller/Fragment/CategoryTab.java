@@ -41,6 +41,8 @@ public class CategoryTab extends Fragment {
 
         //set the view
         recyclerCategory = view.findViewById(R.id.list_category);
+
+        // recyclerCategory init
         recyclerCategory.setLayoutManager(new GridLayoutManager(getContext(), 2));
         categoryAdapter = new CategoryAdapter(getContext(),listCategory);
         categoryAdapter.notifyDataSetChanged();
@@ -71,17 +73,5 @@ public class CategoryTab extends Fragment {
                 Toast.makeText(getContext(),t.toString(),Toast.LENGTH_LONG).show();
             }
         });
-
-//        Category category = new Category();
-//        listCategory.add(category);
-//        listCategory.add(category);
-//        listCategory.add(category);
-//        listCategory.add(category);
-//        listCategory.add(category);
-//        listCategory.add(category);
-//        recyclerCategory.setLayoutManager(new GridLayoutManager(getContext(), 2));
-//        categoryAdapter = new CategoryAdapter(getContext(),listCategory);
-//        recyclerCategory.setNestedScrollingEnabled(false);
-//        recyclerCategory.setAdapter(categoryAdapter);
     }
 }
