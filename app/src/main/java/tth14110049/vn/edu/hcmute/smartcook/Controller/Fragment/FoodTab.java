@@ -1,6 +1,7 @@
 package tth14110049.vn.edu.hcmute.smartcook.Controller.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import tth14110049.vn.edu.hcmute.smartcook.Controller.Activity.GetFoodByCategoryActivity;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.CardFragmentPagerAdapter;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.FoodAdapter;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.ApiClient;
@@ -30,6 +33,7 @@ import tth14110049.vn.edu.hcmute.smartcook.R;
  */
 
 public class FoodTab extends Fragment {
+    private Button btnViewMore;
     private RecyclerView recyclerFood;
     private List<Food> listFood = new ArrayList<>();
     private CardFragmentPagerAdapter pagerAdapter;
@@ -46,6 +50,7 @@ public class FoodTab extends Fragment {
         //set the view
         ViewPager viewPager = view.findViewById(R.id.food_suggesstion_viewpager);
         recyclerFood = view.findViewById(R.id.list_food);
+        btnViewMore = view.findViewById(R.id.btn_view_more);
 
         //recyclerFood init
         recyclerFood.setLayoutManager(new GridLayoutManager(getContext(), 1));
@@ -65,6 +70,14 @@ public class FoodTab extends Fragment {
         apiService = ApiClient.getClient().create(ApiInterface.class);
         //set data
         prepareData();
+
+        //btnViewMore click
+        btnViewMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), GetFoodByCategoryActivity.class));
+            }
+        });
 
         return view;
     }

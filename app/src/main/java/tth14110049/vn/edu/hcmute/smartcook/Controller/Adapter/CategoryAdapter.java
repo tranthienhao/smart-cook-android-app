@@ -49,20 +49,24 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_category, parent, false);
 
-        // on item click
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                context.startActivity(new Intent(context, GetFoodByCategoryActivity.class));
-            }
-        });
         return new CategoryViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(CategoryViewHolder holder, int position) {
-        Category category = categoriesList.get(position);
+        final Category category = categoriesList.get(position);
         holder.tvName.setText(category.getName());
+
+        // on item click
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, GetFoodByCategoryActivity.class);
+                intent.putExtra("CategoryId", category.getId());
+                intent.putExtra("CategoryName", category.getName());
+                context.startActivity(intent);
+            }
+        });
         //load image
         if (category.getImage() != null) {
             Picasso.with(context).load(category.getImage()).fit().centerCrop().into(holder.ivCategoryImage);
