@@ -72,6 +72,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.FoodViewHolder
             public void onClick(View view) {
                 Intent intent = new Intent(context, FoodDetailsActivity.class);
                 intent.putExtra("Food", food);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
 //                Toast.makeText(context,food.getStep().get(0).getContent(),Toast.LENGTH_LONG).show();
             }

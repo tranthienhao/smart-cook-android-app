@@ -5,9 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    app:cardUseCompatPadding="true"
-    android:padding="20dp">
-    <LinearLayout
+    app:cardUseCompatPadding="true">
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -15,22 +14,46 @@
             android:id="@+id/iv_food_image"
             android:layout_width="match_parent"
             android:layout_height="150dp" />
+
         <TextView
             android:id="@+id/tv_food_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="serif"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:singleLine="true"
+            android:gravity="center"
+            android:ellipsize="marquee"
+            android:layout_below="@id/iv_food_image"
             android:text="Tên món ăn"
-            android:padding="10dp"
             android:textColor="@color/colorPrimary"
-            android:textSize="18sp"/>
+            android:textSize="20sp"
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/tv_category_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="Tên danh mục"
+            android:layout_below="@id/tv_food_name"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingBottom="10dp"
-            android:textStyle="italic"/>
-    </LinearLayout>
+            android:textColor="@color/colorBlack"/>
+        <TextView
+            android:id="@+id/tv_cook_time"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/bg_circle"
+            android:gravity="center"
+            android:text="60 phút"
+            android:textStyle="bold"
+            android:textSize="12sp" />
+    </RelativeLayout>
 </android.support.v7.widget.CardView>

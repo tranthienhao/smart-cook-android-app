@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.CardFragmentPagerAdapter;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.MenuAdapter;
 import tth14110049.vn.edu.hcmute.smartcook.Model.Menu;
 import tth14110049.vn.edu.hcmute.smartcook.R;

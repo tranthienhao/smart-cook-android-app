@@ -1,5 +1,6 @@
 package tth14110049.vn.edu.hcmute.smartcook.Controller.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,17 +9,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.CardAdapter;
+import tth14110049.vn.edu.hcmute.smartcook.Controller.Activity.FoodDetailsActivity;
+import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.CardInterface;
+import tth14110049.vn.edu.hcmute.smartcook.Model.Food;
 import tth14110049.vn.edu.hcmute.smartcook.R;
 
 
 public class CardFragment extends Fragment {
-
+    private Food food;
     private CardView mCardView;
-    private ImageView ivNewsImage;
+    private ImageView ivFoodImage;
+    private TextView tvFoodName, tvCategoryName, tvCookTime;
 
     @Nullable
     @Override
@@ -27,14 +32,43 @@ public class CardFragment extends Fragment {
         View view = inflater.inflate(R.layout.item_food_suggession, container, false);
         mCardView = view.findViewById(R.id.food_suggesstion_item);
         mCardView.setMaxCardElevation(mCardView.getCardElevation()
-                * CardAdapter.MAX_ELEVATION_FACTOR);
-        ivNewsImage = view.findViewById(R.id.iv_food_image);
-        Picasso.with(getContext())
-                .load("http://media.phununews.vn/staticFile/Subject/2018/03/17/photo-0-15210803459392129180943_17234528.jpg")
-                .fit().centerCrop()
-                .into(ivNewsImage);
+                * CardInterface.MAX_ELEVATION_FACTOR);
+
+        //get food
+        food = (Food) getArguments().getSerializable("Food");
+
+        //set the view
+        ivFoodImage = view.findViewById(R.id.iv_food_image);
+        tvFoodName = view.findViewById(R.id.tv_food_name);
+        tvCategoryName = view.findViewById(R.id.tv_category_name);
+        tvCookTime = view.findViewById(R.id.tv_cook_time);
+
+        //set text
+        tvFoodName.setText(food.getName());
+        tvCategoryName.setText(food.getCategoryName());
+        tvCookTime.setText(food.getCookingTime());
+
+
+        //set image
+        if(food.getImage() != null)
+            Picasso.with(getContext())
+                    .load(food.getImage())
+                    .fit().centerCrop()
+                    .into(ivFoodImage);
+
+        mCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), FoodDetailsActivity.class);
+                intent.putExtra("Food", food);
+                startActivity(intent);
+            }
+        });
+
         return view;
     }
+
+
     public CardView getCardView() {
         return mCardView;
     }

@@ -33,6 +33,7 @@ import tth14110049.vn.edu.hcmute.smartcook.R;
  */
 
 public class FoodTab extends Fragment {
+    ViewPager foodSuggessionPager;
     private Button btnViewMore;
     private RecyclerView recyclerFood;
     private List<Food> listFood = new ArrayList<>();
@@ -48,7 +49,7 @@ public class FoodTab extends Fragment {
         view = inflater.inflate(R.layout.fragment_food_tab, container, false);
 
         //set the view
-        ViewPager viewPager = view.findViewById(R.id.food_suggesstion_viewpager);
+        foodSuggessionPager = view.findViewById(R.id.food_suggesstion_viewpager);
         recyclerFood = view.findViewById(R.id.list_food);
         btnViewMore = view.findViewById(R.id.btn_view_more);
 
@@ -57,13 +58,6 @@ public class FoodTab extends Fragment {
         foodAdapter = new FoodAdapter(getContext(),listFood);
         recyclerFood.setNestedScrollingEnabled(false);
         recyclerFood.setAdapter(foodAdapter);
-
-        //
-        pagerAdapter = new CardFragmentPagerAdapter(this.getChildFragmentManager(), dpToPixels(2, getContext()));
-        ShadowTransformer fragmentCardShadowTransformer = new ShadowTransformer(viewPager, pagerAdapter);
-        fragmentCardShadowTransformer.enableScaling(true);
-        viewPager.setPageTransformer(false, fragmentCardShadowTransformer);
-        viewPager.setAdapter(pagerAdapter);
 
 
         //get ApiInterface
@@ -94,6 +88,14 @@ public class FoodTab extends Fragment {
                 //Toast.makeText(getContext(),""+listFood.size(),Toast.LENGTH_LONG).show();
                 foodAdapter = new FoodAdapter(getContext(),listFood);
                 recyclerFood.setAdapter(foodAdapter);
+
+                //food suggession adapter
+                pagerAdapter = new CardFragmentPagerAdapter(FoodTab.this.getChildFragmentManager()
+                        , dpToPixels(2, getContext()), listFood);
+                ShadowTransformer fragmentCardShadowTransformer = new ShadowTransformer(foodSuggessionPager, pagerAdapter);
+                fragmentCardShadowTransformer.enableScaling(true);
+                foodSuggessionPager.setPageTransformer(false, fragmentCardShadowTransformer);
+                foodSuggessionPager.setAdapter(pagerAdapter);
             }
             @Override
             public void onFailure(Call<List<Food>>call, Throwable t) {

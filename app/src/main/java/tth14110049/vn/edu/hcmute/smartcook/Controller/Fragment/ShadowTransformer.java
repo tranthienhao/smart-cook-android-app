@@ -5,32 +5,32 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.view.View;
 
-import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.CardAdapter;
+import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.CardInterface;
 
 public class ShadowTransformer implements ViewPager.OnPageChangeListener, ViewPager.PageTransformer {
 
     private ViewPager viewPager;
-    private CardAdapter cardAdapter;
+    private CardInterface cardInterface;
     private float lastOffset;
     private boolean scalingEnabled;
 
-    public ShadowTransformer(ViewPager viewPager, CardAdapter adapter) {
+    public ShadowTransformer(ViewPager viewPager, CardInterface adapter) {
         this.viewPager = viewPager;
         viewPager.addOnPageChangeListener(this);
-        cardAdapter = adapter;
+        cardInterface = adapter;
     }
 
     public void enableScaling(boolean enable) {
         if (scalingEnabled && !enable) {
             // shrink main card
-            CardView currentCard = cardAdapter.getCardViewAt(viewPager.getCurrentItem());
+            CardView currentCard = cardInterface.getCardViewAt(viewPager.getCurrentItem());
             if (currentCard != null) {
                 currentCard.animate().scaleY(1);
                 currentCard.animate().scaleX(1);
             }
         }else if(!scalingEnabled && enable){
             // grow main card
-            CardView currentCard = cardAdapter.getCardViewAt(viewPager.getCurrentItem());
+            CardView currentCard = cardInterface.getCardViewAt(viewPager.getCurrentItem());
             if (currentCard != null) {
                 //enlarge the current item
                 currentCard.animate().scaleY(1.1f);
@@ -49,7 +49,7 @@ public class ShadowTransformer implements ViewPager.OnPageChangeListener, ViewPa
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         int realCurrentPosition;
         int nextPosition;
-        float baseElevation = cardAdapter.getBaseElevation();
+        float baseElevation = cardInterface.getBaseElevation();
         float realOffset;
         boolean goingLeft = lastOffset > positionOffset;
 
@@ -66,12 +66,12 @@ public class ShadowTransformer implements ViewPager.OnPageChangeListener, ViewPa
         }
 
         // Avoid crash on overscroll
-        if (nextPosition > cardAdapter.getCount() - 1
-                || realCurrentPosition > cardAdapter.getCount() - 1) {
+        if (nextPosition > cardInterface.getCount() - 1
+                || realCurrentPosition > cardInterface.getCount() - 1) {
             return;
         }
 
-        CardView currentCard = cardAdapter.getCardViewAt(realCurrentPosition);
+        CardView currentCard = cardInterface.getCardViewAt(realCurrentPosition);
 
         // This might be null if a fragment is being used
         // and the views weren't created yet
@@ -81,10 +81,10 @@ public class ShadowTransformer implements ViewPager.OnPageChangeListener, ViewPa
                 currentCard.setScaleY((float) (1 + 0.1 * (1 - realOffset)));
             }
             currentCard.setCardElevation((baseElevation + baseElevation
-                    * (CardAdapter.MAX_ELEVATION_FACTOR - 1) * (1 - realOffset)));
+                    * (CardInterface.MAX_ELEVATION_FACTOR - 1) * (1 - realOffset)));
         }
 
-        CardView nextCard = cardAdapter.getCardViewAt(nextPosition);
+        CardView nextCard = cardInterface.getCardViewAt(nextPosition);
 
         // We might be scrolling fast enough so that the next (or previous) card
         // was already destroyed or a fragment might not have been created yet
@@ -94,7 +94,7 @@ public class ShadowTransformer implements ViewPager.OnPageChangeListener, ViewPa
                 nextCard.setScaleY((float) (1 + 0.1 * (realOffset)));
             }
             nextCard.setCardElevation((baseElevation + baseElevation
-                    * (CardAdapter.MAX_ELEVATION_FACTOR - 1) * (realOffset)));
+                    * (CardInterface.MAX_ELEVATION_FACTOR - 1) * (realOffset)));
         }
 
         lastOffset = positionOffset;

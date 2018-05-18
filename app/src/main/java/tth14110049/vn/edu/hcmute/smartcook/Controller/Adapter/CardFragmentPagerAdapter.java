@@ -1,5 +1,6 @@
 package tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -9,21 +10,25 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.CardAdapter;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Fragment.CardFragment;
+import tth14110049.vn.edu.hcmute.smartcook.Model.Food;
 
-public class CardFragmentPagerAdapter extends FragmentStatePagerAdapter implements CardAdapter {
+public class CardFragmentPagerAdapter extends FragmentStatePagerAdapter implements CardInterface {
 
     private List<CardFragment> mFragments;
     private float mBaseElevation;
 
-    public CardFragmentPagerAdapter(FragmentManager fm, float baseElevation) {
+    public CardFragmentPagerAdapter(FragmentManager fm, float baseElevation, List<Food> listFood) {
         super(fm);
         mFragments = new ArrayList<>();
         mBaseElevation = baseElevation;
 
         for(int i = 0; i< 4; i++){
-            addCardFragment(new CardFragment());
+            CardFragment cardFragment = new CardFragment();
+            Bundle args = new Bundle();
+            args.putSerializable("Food", listFood.get(i));
+            cardFragment.setArguments(args);
+            addCardFragment(cardFragment);
         }
     }
 
