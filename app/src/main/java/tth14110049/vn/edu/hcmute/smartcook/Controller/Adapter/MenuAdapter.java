@@ -28,14 +28,14 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     private List<Menu> menusList;
 
     public class MenuViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvName, tvDescription, tvCategory;
+        private TextView tvName, tvMeal, tvCookTime;
         private ImageView ivMenuImage;
 
         public MenuViewHolder(View view) {
             super(view);
             tvName = view.findViewById(R.id.tv_menu_name);
-            tvCategory = view.findViewById(R.id.tv_category_name);
-            tvDescription = view.findViewById(R.id.tv_menu_description);
+            tvMeal = view.findViewById(R.id.tv_meal);
+            tvCookTime = view.findViewById(R.id.tv_cook_time);
             ivMenuImage = view.findViewById(R.id.iv_menu_image);
         }
     }
@@ -51,27 +51,28 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_menu, parent, false);
 
-        // on item click
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                context.startActivity(new Intent(context, MenuDetailsActivity.class));
-            }
-        });
         return new MenuViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MenuViewHolder holder, int position) {
-        Menu menu = menusList.get(position);
-        holder.tvName.setText("THỊT KHO HỘT VỊT");
-        holder.tvDescription.setText("Thịt kho có lẽ đã quá quen thuộc...");
-        holder.tvCategory.setText("Món kho");
-
-//        //load image
-//        if (menu.getMenuImage() != null) {
-//            Picasso.with(context).load(menu.getMenuImage()).fit().centerCrop().into(holder.ivMenuImage);
-//        }
+        final Menu menu = menusList.get(position);
+        holder.tvName.setText(menu.getName());
+        holder.tvMeal.setText(menu.getMeal());
+        holder.tvCookTime.setText(menu.getCookingTime());
+        // on item click
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, MenuDetailsActivity.class);
+                intent.putExtra("Menu", menu);
+                context.startActivity(intent);
+            }
+        });
+        //load image
+        if (menu.getImage() != null) {
+            Picasso.with(context).load(menu.getImage()).fit().centerCrop().into(holder.ivMenuImage);
+        }
     }
 
     @Override

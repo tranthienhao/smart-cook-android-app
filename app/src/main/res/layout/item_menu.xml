@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/iv_menu_image"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:src="@drawable/banhkhoai"/>
     <TextView
-        android:id="@+id/tv_category_name"
+        android:id="@+id/tv_meal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="thực đơn 1"
+        android:text="Bữa sáng"
         android:textAllCaps="true"
         android:textColor="@color/colorWhite"
-        android:textStyle="italic"
+        android:textStyle="bold|italic"
         android:background="@color/colorPrimary"
         android:layout_marginTop="30dp" />
     <TextView
@@ -24,17 +23,41 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
+        android:padding="10dp"
         android:text="THỊT KHO TRỨNG CÚT"
         android:textAllCaps="true"
         android:textSize="18sp"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorAccent"
         android:layout_below="@id/iv_menu_image"/>
-    <TextView
-        android:id="@+id/tv_menu_description"
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:text="Mô tả món ăn..."
-        android:layout_below="@id/tv_menu_name"/>
+        android:layout_below="@id/tv_menu_name"
+        android:padding="10dp">
+        <View
+            android:layout_width="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary" />
+        <TextView
+            android:id="@+id/tv_cook_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:drawableLeft="@drawable/ic_time"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_time"
+            android:textColor="@color/colorBlack"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="60 phút"
+            android:background="@color/colorWhite"
+            android:textSize="12sp"
+            android:textStyle="italic" />
+    </RelativeLayout>
+
 
 </RelativeLayout>

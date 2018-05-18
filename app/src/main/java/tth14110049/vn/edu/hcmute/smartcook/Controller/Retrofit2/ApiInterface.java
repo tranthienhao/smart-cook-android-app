@@ -12,6 +12,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import tth14110049.vn.edu.hcmute.smartcook.Model.Category;
 import tth14110049.vn.edu.hcmute.smartcook.Model.Food;
+import tth14110049.vn.edu.hcmute.smartcook.Model.Menu;
 
 
 public interface ApiInterface {
@@ -20,6 +21,9 @@ public interface ApiInterface {
 
     @GET("get_foods.php")
     Call<List<Food>> getFoods();
+
+    @GET("get_menus.php")
+    Call<List<Menu>> getMenus();
 
     @FormUrlEncoded
     @POST("get_food_by_category.php")

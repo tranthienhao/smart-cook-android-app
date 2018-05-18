@@ -21,10 +21,17 @@
             android:src="@drawable/ic_back" />
 
         <TextView
-            android:id="@+id/tv_toolbar_food_name"
+            android:id="@+id/tv_toolbar_menu_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:scrollHorizontally="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit ="marquee_forever"
             android:textAllCaps="true"
             android:textColor="@color/colorWhite"
             android:textSize="18sp"
@@ -72,7 +79,7 @@
                     android:src="@drawable/banhkhoai" />
             </LinearLayout>
             <TextView
-                android:id="@+id/tv_food_name"
+                android:id="@+id/tv_menu_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
@@ -101,18 +108,17 @@
                 android:id="@+id/tv_menu_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:padding="10dp"
                 android:text="Mô tả món ăn"
                 android:textSize="16sp" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
+                android:textColor="@color/colorBlack"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textStyle="bold"
+                android:textStyle="bold|italic"
                 android:text="@string/menu_notice"
                 android:textSize="16sp" />
         </LinearLayout>
