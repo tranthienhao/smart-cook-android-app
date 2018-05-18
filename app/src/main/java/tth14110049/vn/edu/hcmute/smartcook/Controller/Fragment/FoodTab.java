@@ -21,10 +21,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Activity.GetFoodByCategoryActivity;
-import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.CardFragmentPagerAdapter;
+import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.FoodSuggessionFragmentPagerAdapter;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.FoodAdapter;
-import tth14110049.vn.edu.hcmute.smartcook.Controller.ApiClient;
-import tth14110049.vn.edu.hcmute.smartcook.Controller.ApiInterface;
+import tth14110049.vn.edu.hcmute.smartcook.Controller.Retrofit2.ApiClient;
+import tth14110049.vn.edu.hcmute.smartcook.Controller.Retrofit2.ApiInterface;
 import tth14110049.vn.edu.hcmute.smartcook.Model.Food;
 import tth14110049.vn.edu.hcmute.smartcook.R;
 
@@ -37,7 +37,7 @@ public class FoodTab extends Fragment {
     private Button btnViewMore;
     private RecyclerView recyclerFood;
     private List<Food> listFood = new ArrayList<>();
-    private CardFragmentPagerAdapter pagerAdapter;
+    private FoodSuggessionFragmentPagerAdapter pagerAdapter;
     private FoodAdapter foodAdapter;
     ApiInterface apiService;
     private View view;
@@ -90,7 +90,7 @@ public class FoodTab extends Fragment {
                 recyclerFood.setAdapter(foodAdapter);
 
                 //food suggession adapter
-                pagerAdapter = new CardFragmentPagerAdapter(FoodTab.this.getChildFragmentManager()
+                pagerAdapter = new FoodSuggessionFragmentPagerAdapter(FoodTab.this.getChildFragmentManager()
                         , dpToPixels(2, getContext()), listFood);
                 ShadowTransformer fragmentCardShadowTransformer = new ShadowTransformer(foodSuggessionPager, pagerAdapter);
                 fragmentCardShadowTransformer.enableScaling(true);

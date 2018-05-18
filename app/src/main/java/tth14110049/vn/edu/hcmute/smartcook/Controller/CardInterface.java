@@ -1,4 +1,4 @@
-package tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter;
+package tth14110049.vn.edu.hcmute.smartcook.Controller;
 
 import android.support.v7.widget.CardView;
 

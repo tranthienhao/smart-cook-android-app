@@ -11,17 +11,15 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.FormUrlEncoded;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.FoodAdapter;
-import tth14110049.vn.edu.hcmute.smartcook.Controller.ApiClient;
-import tth14110049.vn.edu.hcmute.smartcook.Controller.ApiInterface;
+import tth14110049.vn.edu.hcmute.smartcook.Controller.Retrofit2.ApiClient;
+import tth14110049.vn.edu.hcmute.smartcook.Controller.Retrofit2.ApiInterface;
 import tth14110049.vn.edu.hcmute.smartcook.Model.Food;
 import tth14110049.vn.edu.hcmute.smartcook.R;
 

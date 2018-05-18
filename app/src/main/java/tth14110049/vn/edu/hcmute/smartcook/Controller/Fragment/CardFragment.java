@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Activity.FoodDetailsActivity;
-import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.CardInterface;
+import tth14110049.vn.edu.hcmute.smartcook.Controller.CardInterface;
 import tth14110049.vn.edu.hcmute.smartcook.Model.Food;
 import tth14110049.vn.edu.hcmute.smartcook.R;
 

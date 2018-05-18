@@ -1,4 +1,4 @@
-package tth14110049.vn.edu.hcmute.smartcook.Controller;
+package tth14110049.vn.edu.hcmute.smartcook.Controller.Retrofit2;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

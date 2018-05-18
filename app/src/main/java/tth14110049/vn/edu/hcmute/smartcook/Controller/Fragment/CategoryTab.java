@@ -1,6 +1,5 @@
 package tth14110049.vn.edu.hcmute.smartcook.Controller.Fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -18,10 +16,9 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import tth14110049.vn.edu.hcmute.smartcook.Controller.Activity.GetFoodByCategoryActivity;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.CategoryAdapter;
-import tth14110049.vn.edu.hcmute.smartcook.Controller.ApiClient;
-import tth14110049.vn.edu.hcmute.smartcook.Controller.ApiInterface;
+import tth14110049.vn.edu.hcmute.smartcook.Controller.Retrofit2.ApiClient;
+import tth14110049.vn.edu.hcmute.smartcook.Controller.Retrofit2.ApiInterface;
 import tth14110049.vn.edu.hcmute.smartcook.Model.Category;
 import tth14110049.vn.edu.hcmute.smartcook.R;
 

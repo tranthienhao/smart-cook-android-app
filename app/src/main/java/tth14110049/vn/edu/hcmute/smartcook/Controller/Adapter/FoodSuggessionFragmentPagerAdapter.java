@@ -10,15 +10,16 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import tth14110049.vn.edu.hcmute.smartcook.Controller.CardInterface;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Fragment.CardFragment;
 import tth14110049.vn.edu.hcmute.smartcook.Model.Food;
 
-public class CardFragmentPagerAdapter extends FragmentStatePagerAdapter implements CardInterface {
+public class FoodSuggessionFragmentPagerAdapter extends FragmentStatePagerAdapter implements CardInterface {
 
     private List<CardFragment> mFragments;
     private float mBaseElevation;
 
-    public CardFragmentPagerAdapter(FragmentManager fm, float baseElevation, List<Food> listFood) {
+    public FoodSuggessionFragmentPagerAdapter(FragmentManager fm, float baseElevation, List<Food> listFood) {
         super(fm);
         mFragments = new ArrayList<>();
         mBaseElevation = baseElevation;
