@@ -52,8 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:fitsSystemWindows="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/banhkhoai" />
+                android:scaleType="centerCrop" />
 
             <TextView
                 android:id="@+id/tv_food_name"
@@ -61,7 +60,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
                 android:padding="10dp"
-                android:text="Tên món ăn"
                 android:textColor="@color/colorAccent"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -72,7 +70,6 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:text="Tên danh mục"
                 android:textColor="@color/colorAccent"
                 android:textStyle="italic" />
 
@@ -87,7 +84,6 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:text="60 phút"
                 android:textSize="12sp"
                 android:textStyle="italic" />
 
@@ -99,7 +95,6 @@
                 android:paddingBottom="10dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:text="Mô tả món ăn"
                 android:textSize="16sp" />
 
             <LinearLayout

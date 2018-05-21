@@ -1,6 +1,7 @@
 package tth14110049.vn.edu.hcmute.smartcook.Controller.Activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import cc.cloudist.acplibrary.ACProgressConstant;
+import cc.cloudist.acplibrary.ACProgressFlower;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -61,6 +64,7 @@ public class FoodDetailsActivity extends YouTubeBaseActivity implements YouTubeP
     private List<Ingredient> listIngredient = new ArrayList<>();
     private int numberOfPeople = 1; // số người ăn bữa
     private YouTubePlayer myYoutubePlayer;
+    private ACProgressFlower loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +91,17 @@ public class FoodDetailsActivity extends YouTubeBaseActivity implements YouTubeP
         btnSubPerson = findViewById(R.id.btn_sub_person);
         btnAddPerson = findViewById(R.id.btn_add_person);
 
+        //initialize loading dialog
+        loadingDialog = new ACProgressFlower.Builder(FoodDetailsActivity.this)
+                .direction(ACProgressConstant.DIRECT_CLOCKWISE)
+                .themeColor(Color.WHITE)
+                .text("Loading data")
+                .fadeColor(Color.DKGRAY).build();
+        loadingDialog.setCanceledOnTouchOutside(false);
+        loadingDialog.setCancelable(false);
+
         //get extra
+        loadingDialog.show();
         Intent intent = getIntent();
         foodDetails = (Food) intent.getSerializableExtra("Food");
         if(foodDetails != null){
@@ -208,6 +222,9 @@ public class FoodDetailsActivity extends YouTubeBaseActivity implements YouTubeP
         ingredientAdapter = new IngredientAdapter(getBaseContext(), listIngredient, numberOfPeople);
         recyclerIngredient.setNestedScrollingEnabled(false);
         recyclerIngredient.setAdapter(ingredientAdapter);
+
+        //dismiss loading dialog
+        loadingDialog.dismiss();
     }
     //function get và set data từ server
     private void prepareData() {
@@ -228,6 +245,8 @@ public class FoodDetailsActivity extends YouTubeBaseActivity implements YouTubeP
                 // Log error here since request failed
                 Log.e("GET FOOD BY ID ERROR", t.toString());
                 Toast.makeText(getBaseContext(),t.toString(),Toast.LENGTH_LONG).show();
+                //dismiss loading dialog
+                loadingDialog.dismiss();
             }
         });
     }

@@ -70,7 +70,7 @@ public class WeeklyMenuAdapter extends RecyclerView.Adapter<WeeklyMenuAdapter.We
             if(position / 3 == 0){
                 holder.tvDayOfWeek.setText("Chủ nhật");
             }else {
-                holder.tvDayOfWeek.setText("Thứ "+ (position / 3 + 2));
+                holder.tvDayOfWeek.setText("Thứ "+ (position / 3 + 1));
             }
         }
 

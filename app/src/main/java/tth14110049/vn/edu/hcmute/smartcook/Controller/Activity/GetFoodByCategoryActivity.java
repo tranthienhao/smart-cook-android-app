@@ -1,6 +1,7 @@
 package tth14110049.vn.edu.hcmute.smartcook.Controller.Activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import cc.cloudist.acplibrary.ACProgressConstant;
+import cc.cloudist.acplibrary.ACProgressFlower;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,6 +38,7 @@ public class GetFoodByCategoryActivity extends AppCompatActivity{
     private RecyclerView recyclerFood;
     private List<Food> listFood = new ArrayList<>();
     private FoodAdapter foodAdapter;
+    ACProgressFlower loadingDialog;
     ApiInterface apiService;
 
     @Override
@@ -70,11 +74,21 @@ public class GetFoodByCategoryActivity extends AppCompatActivity{
             }
         });
 
+        //initialize loading dialog
+        loadingDialog = new ACProgressFlower.Builder(GetFoodByCategoryActivity.this)
+                .direction(ACProgressConstant.DIRECT_CLOCKWISE)
+                .themeColor(Color.WHITE)
+                .text("Loading data")
+                .fadeColor(Color.DKGRAY).build();
+        loadingDialog.setCanceledOnTouchOutside(false);
+        loadingDialog.setCancelable(false);
+
         //set data
         prepareData();
     }
 
     private void prepareData() {
+        loadingDialog.show();
         Call<List<Food>> call;
         if(categoryId > 0){
             //set data with food by category
@@ -92,6 +106,9 @@ public class GetFoodByCategoryActivity extends AppCompatActivity{
                 //Toast.makeText(getContext(),""+listFood.size(),Toast.LENGTH_LONG).show();
                 foodAdapter = new FoodAdapter(getBaseContext(),listFood);
                 recyclerFood.setAdapter(foodAdapter);
+
+                //dismiss loading dialog
+                loadingDialog.dismiss();
             }
 
             @Override
@@ -99,6 +116,8 @@ public class GetFoodByCategoryActivity extends AppCompatActivity{
                 // Log error here since request failed
                 Log.e("Error:______________", t.toString());
                 Toast.makeText(getBaseContext(),t.toString(),Toast.LENGTH_LONG).show();
+                //dismiss loading dialog
+                loadingDialog.dismiss();
             }
         });
     }

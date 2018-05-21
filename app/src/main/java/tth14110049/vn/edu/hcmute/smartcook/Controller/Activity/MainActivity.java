@@ -1,6 +1,7 @@
 package tth14110049.vn.edu.hcmute.smartcook.Controller.Activity;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.Vector;
 
+import cc.cloudist.acplibrary.ACProgressConstant;
+import cc.cloudist.acplibrary.ACProgressFlower;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.SwipeableTabAdapter;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Fragment.CategoryTab;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Fragment.FoodTab;
@@ -24,7 +27,7 @@ import tth14110049.vn.edu.hcmute.smartcook.R;
 public class MainActivity extends FragmentActivity {
     private TabHost mainTabHost;
     private ViewPager pager;
-
+    public static ACProgressFlower loadingDialog;
     private class TabFactory implements TabHost.TabContentFactory {
         private final Context mContext;
 
@@ -104,6 +107,15 @@ public class MainActivity extends FragmentActivity {
 
         //setCurrentTab
         mainTabHost.setCurrentTab(0);
+
+        //initialize loading dialog
+        loadingDialog = new ACProgressFlower.Builder(MainActivity.this)
+                .direction(ACProgressConstant.DIRECT_CLOCKWISE)
+                .themeColor(Color.WHITE)
+                .text("Loading data")
+                .fadeColor(Color.DKGRAY).build();
+        loadingDialog.setCanceledOnTouchOutside(false);
+        loadingDialog.setCancelable(false);
     }
 
     private static void AddTab(MainActivity activity,

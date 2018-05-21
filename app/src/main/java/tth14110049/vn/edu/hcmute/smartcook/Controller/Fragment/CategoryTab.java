@@ -22,6 +22,8 @@ import tth14110049.vn.edu.hcmute.smartcook.Controller.Retrofit2.ApiInterface;
 import tth14110049.vn.edu.hcmute.smartcook.Model.Category;
 import tth14110049.vn.edu.hcmute.smartcook.R;
 
+import static tth14110049.vn.edu.hcmute.smartcook.Controller.Activity.MainActivity.loadingDialog;
+
 /**
  * Created by Hao Tran Thien on 5/8/2018.
  */
@@ -51,12 +53,14 @@ public class CategoryTab extends Fragment {
 
         //get ApiInterface
         apiService = ApiClient.getClient().create(ApiInterface.class);
+
         prepareData();
 
         return view;
     }
 
     private void prepareData() {
+        loadingDialog.show();
         Call<List<Category>> call = apiService.getCategories();
         call.enqueue(new Callback<List<Category>>() {
             @Override
@@ -66,6 +70,7 @@ public class CategoryTab extends Fragment {
                 //Toast.makeText(getContext(),""+listCategory.size(),Toast.LENGTH_LONG).show();
                 categoryAdapter = new CategoryAdapter(getContext(),listCategory);
                 recyclerCategory.setAdapter(categoryAdapter);
+                loadingDialog.dismiss();
             }
             @Override
             public void onFailure(Call<List<Category>>call, Throwable t) {

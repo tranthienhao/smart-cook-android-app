@@ -2,6 +2,7 @@ package tth14110049.vn.edu.hcmute.smartcook.Controller.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -17,6 +18,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import cc.cloudist.acplibrary.ACProgressConstant;
+import cc.cloudist.acplibrary.ACProgressFlower;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,6 +30,8 @@ import tth14110049.vn.edu.hcmute.smartcook.Controller.Retrofit2.ApiClient;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Retrofit2.ApiInterface;
 import tth14110049.vn.edu.hcmute.smartcook.Model.Food;
 import tth14110049.vn.edu.hcmute.smartcook.R;
+
+import static tth14110049.vn.edu.hcmute.smartcook.Controller.Activity.MainActivity.loadingDialog;
 
 /**
  * Created by Hao Tran Thien on 5/8/2018.
@@ -59,9 +64,10 @@ public class FoodTab extends Fragment {
         recyclerFood.setNestedScrollingEnabled(false);
         recyclerFood.setAdapter(foodAdapter);
 
-
         //get ApiInterface
         apiService = ApiClient.getClient().create(ApiInterface.class);
+
+        loadingDialog.show();
         //set data
         prepareData();
 
@@ -83,7 +89,7 @@ public class FoodTab extends Fragment {
         call.enqueue(new Callback<List<Food>>() {
             @Override
             public void onResponse(Call<List<Food>>call, Response<List<Food>> response) {
-//                listFood.clear();
+                //listFood.clear();
                 listFood = response.body();
                 //Toast.makeText(getContext(),""+listFood.size(),Toast.LENGTH_LONG).show();
                 foodAdapter = new FoodAdapter(getContext(),listFood);
@@ -96,12 +102,14 @@ public class FoodTab extends Fragment {
                 fragmentCardShadowTransformer.enableScaling(true);
                 foodSuggessionPager.setPageTransformer(false, fragmentCardShadowTransformer);
                 foodSuggessionPager.setAdapter(pagerAdapter);
+                loadingDialog.dismiss();
             }
             @Override
             public void onFailure(Call<List<Food>>call, Throwable t) {
                 // Log error here since request failed
                 Log.e("GET FOOD ERROR", t.toString());
                 Toast.makeText(getContext(),t.toString(),Toast.LENGTH_LONG).show();
+                loadingDialog.show();
             }
         });
     }
