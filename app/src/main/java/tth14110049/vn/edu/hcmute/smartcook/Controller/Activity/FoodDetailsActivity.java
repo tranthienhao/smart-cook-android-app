@@ -208,9 +208,6 @@ public class FoodDetailsActivity extends YouTubeBaseActivity implements YouTubeP
         ingredientAdapter = new IngredientAdapter(getBaseContext(), listIngredient, numberOfPeople);
         recyclerIngredient.setNestedScrollingEnabled(false);
         recyclerIngredient.setAdapter(ingredientAdapter);
-
-        //set video player
-        myYoutubePlayer.cueVideo(foodDetails.getVideo());
     }
     //function get và set data từ server
     private void prepareData() {
@@ -222,6 +219,8 @@ public class FoodDetailsActivity extends YouTubeBaseActivity implements YouTubeP
                 foodDetails = response.body().get(0);
                 //set data when get success
                 prepareAvailableData();
+                //set video player
+                myYoutubePlayer.cueVideo(foodDetails.getVideo());
             }
 
             @Override

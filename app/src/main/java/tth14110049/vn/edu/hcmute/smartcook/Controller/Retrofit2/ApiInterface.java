@@ -25,6 +25,9 @@ public interface ApiInterface {
     @GET("get_menus.php")
     Call<List<Menu>> getMenus();
 
+    @GET("get_weekly_menu.php")
+    Call<List<Menu>> getWeeklyMenus();
+
     @FormUrlEncoded
     @POST("get_food_by_id.php")
     Call<List<Food>> getFoodById(@Field("FoodId") int FoodId);
