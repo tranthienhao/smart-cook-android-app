@@ -2,11 +2,29 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <ImageView
-        android:id="@+id/iv_menu_image"
+    <LinearLayout
+        android:id="@+id/layout_image_view"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:src="@drawable/banhkhoai"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/iv_food1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="250dp" />
+        <ImageView
+            android:id="@+id/iv_food2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="250dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp" />
+        <ImageView
+            android:id="@+id/iv_food3"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="250dp"/>
+    </LinearLayout>
     <TextView
         android:id="@+id/tv_meal"
         android:layout_width="wrap_content"
@@ -28,7 +46,7 @@
         android:textAllCaps="true"
         android:textSize="18sp"
         android:textColor="@color/colorAccent"
-        android:layout_below="@id/iv_menu_image"/>
+        android:layout_below="@id/layout_image_view"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

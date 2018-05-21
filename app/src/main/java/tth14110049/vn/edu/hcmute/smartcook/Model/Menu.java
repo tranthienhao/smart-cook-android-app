@@ -20,9 +20,6 @@ public class Menu implements Serializable{
     @SerializedName("Description")
     @Expose
     private String description;
-    @SerializedName("Image")
-    @Expose
-    private String image;
     @SerializedName("CookingTime")
     @Expose
     private String cookingTime;
@@ -70,14 +67,6 @@ public class Menu implements Serializable{
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     public String getCookingTime() {

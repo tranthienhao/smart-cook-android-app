@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -11,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
@@ -24,8 +26,13 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.IngredientAdapter;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.StepAdapter;
+import tth14110049.vn.edu.hcmute.smartcook.Controller.Retrofit2.ApiClient;
+import tth14110049.vn.edu.hcmute.smartcook.Controller.Retrofit2.ApiInterface;
 import tth14110049.vn.edu.hcmute.smartcook.Model.Food;
 import tth14110049.vn.edu.hcmute.smartcook.Model.Ingredient;
 import tth14110049.vn.edu.hcmute.smartcook.Model.Step;
@@ -38,6 +45,7 @@ import tth14110049.vn.edu.hcmute.smartcook.YoutubeConfig;
 
 public class FoodDetailsActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
     ImageButton btnBack;
+    int foodId;
     Button btnSubPerson, btnAddPerson;
     YouTubePlayerFragment youTubePlayerFragment;
     ToggleButton toggleStep, toggleVideo, toggleIngredient;
@@ -52,17 +60,12 @@ public class FoodDetailsActivity extends YouTubeBaseActivity implements YouTubeP
     private List<Step> listStep = new ArrayList<>();
     private List<Ingredient> listIngredient = new ArrayList<>();
     private int numberOfPeople = 1; // số người ăn bữa
+    private YouTubePlayer myYoutubePlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_details);
-
-        //get extra
-        Intent intent = getIntent();
-        foodDetails = (Food) intent.getSerializableExtra("Food");
-        listStep = foodDetails.getStep();
-        listIngredient = foodDetails.getIngredient();
 
         //set the view
         btnBack = findViewById(R.id.btn_back);
@@ -83,6 +86,21 @@ public class FoodDetailsActivity extends YouTubeBaseActivity implements YouTubeP
         ivFoodImage = findViewById(R.id.iv_food_image);
         btnSubPerson = findViewById(R.id.btn_sub_person);
         btnAddPerson = findViewById(R.id.btn_add_person);
+
+        //get extra
+        Intent intent = getIntent();
+        foodDetails = (Food) intent.getSerializableExtra("Food");
+        if(foodDetails != null){
+            listStep = foodDetails.getStep();
+            listIngredient = foodDetails.getIngredient();
+            //set data
+            prepareAvailableData();
+        }else {
+            foodId = intent.getIntExtra("FoodId", -1);
+            if(foodId > 0){
+                prepareData();
+            }
+        }
 
         //youtube fragment
         youTubePlayerFragment = (YouTubePlayerFragment) getFragmentManager().findFragmentById(R.id.fragment_youtube_player);
@@ -158,12 +176,9 @@ public class FoodDetailsActivity extends YouTubeBaseActivity implements YouTubeP
             }
         });
         toggleStep.setChecked(true);
-
-        //set data
-        prepareData();
     }
-
-    private void prepareData() {
+    // fuction set data nếu đã có sẵn Food
+    private void prepareAvailableData() {
         //set text
         tvToolbarFoodName.setText(foodDetails.getName());
         tvFoodName.setText(foodDetails.getName());
@@ -179,6 +194,9 @@ public class FoodDetailsActivity extends YouTubeBaseActivity implements YouTubeP
                     .centerCrop()
                     .into(ivFoodImage);
 
+        listStep = foodDetails.getStep();
+        listIngredient = foodDetails.getIngredient();
+
         //set Step Adapter
         recyclerStep.setLayoutManager(new GridLayoutManager(getBaseContext(), 1));
         stepAdapter = new StepAdapter(getBaseContext(), listStep);
@@ -190,12 +208,36 @@ public class FoodDetailsActivity extends YouTubeBaseActivity implements YouTubeP
         ingredientAdapter = new IngredientAdapter(getBaseContext(), listIngredient, numberOfPeople);
         recyclerIngredient.setNestedScrollingEnabled(false);
         recyclerIngredient.setAdapter(ingredientAdapter);
-    }
 
+        //set video player
+        myYoutubePlayer.cueVideo(foodDetails.getVideo());
+    }
+    //function get và set data từ server
+    private void prepareData() {
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<List<Food>> call = apiService.getFoodById(foodId);
+        call.enqueue(new Callback<List<Food>>() {
+            @Override
+            public void onResponse(Call<List<Food>> call, Response<List<Food>> response) {
+                foodDetails = response.body().get(0);
+                //set data when get success
+                prepareAvailableData();
+            }
+
+            @Override
+            public void onFailure(Call<List<Food>> call, Throwable t) {
+                // Log error here since request failed
+                Log.e("GET FOOD BY ID ERROR", t.toString());
+                Toast.makeText(getBaseContext(),t.toString(),Toast.LENGTH_LONG).show();
+            }
+        });
+    }
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+        myYoutubePlayer = youTubePlayer;
         //get youtube link
-        youTubePlayer.cueVideo(foodDetails.getVideo());
+        if(foodDetails != null)
+            youTubePlayer.cueVideo(foodDetails.getVideo());
     }
 
     @Override

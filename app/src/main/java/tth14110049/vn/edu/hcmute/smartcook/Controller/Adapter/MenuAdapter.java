@@ -29,14 +29,16 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
 
     public class MenuViewHolder extends RecyclerView.ViewHolder {
         private TextView tvName, tvMeal, tvCookTime;
-        private ImageView ivMenuImage;
+        private ImageView ivFood1, ivFood2, ivFood3;
 
         public MenuViewHolder(View view) {
             super(view);
             tvName = view.findViewById(R.id.tv_menu_name);
             tvMeal = view.findViewById(R.id.tv_meal);
             tvCookTime = view.findViewById(R.id.tv_cook_time);
-            ivMenuImage = view.findViewById(R.id.iv_menu_image);
+            ivFood1 = view.findViewById(R.id.iv_food1);
+            ivFood2 = view.findViewById(R.id.iv_food2);
+            ivFood3 = view.findViewById(R.id.iv_food3);
         }
     }
 
@@ -70,8 +72,18 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
             }
         });
         //load image
-        if (menu.getImage() != null) {
-            Picasso.with(context).load(menu.getImage()).fit().centerCrop().into(holder.ivMenuImage);
+        if (!menu.getFoodImage1().isEmpty()) {
+            Picasso.with(context).load(menu.getFoodImage1()).fit().centerCrop().into(holder.ivFood1);
+        }
+        if (!menu.getFoodImage2().isEmpty()) {
+            Picasso.with(context).load(menu.getFoodImage2()).fit().centerCrop().into(holder.ivFood2);
+        }else {
+            holder.ivFood2.setVisibility(View.GONE);
+        }
+        if (!menu.getFoodImage3().isEmpty()) {
+            Picasso.with(context).load(menu.getFoodImage3()).fit().centerCrop().into(holder.ivFood3);
+        }else {
+            holder.ivFood3.setVisibility(View.GONE);
         }
     }
 

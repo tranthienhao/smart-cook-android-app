@@ -70,7 +70,7 @@ public class CategoryTab extends Fragment {
             @Override
             public void onFailure(Call<List<Category>>call, Throwable t) {
                 // Log error here since request failed
-                Log.e("Error:______________", t.toString());
+                Log.e("GET CATEGORY ERROR", t.toString());
                 Toast.makeText(getContext(),t.toString(),Toast.LENGTH_LONG).show();
             }
         });

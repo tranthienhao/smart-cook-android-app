@@ -100,7 +100,7 @@ public class FoodTab extends Fragment {
             @Override
             public void onFailure(Call<List<Food>>call, Throwable t) {
                 // Log error here since request failed
-                Log.e("Error:______________", t.toString());
+                Log.e("GET FOOD ERROR", t.toString());
                 Toast.makeText(getContext(),t.toString(),Toast.LENGTH_LONG).show();
             }
         });

@@ -68,7 +68,7 @@ public class MenuTab extends Fragment {
             @Override
             public void onFailure(Call<List<Menu>> call, Throwable t) {
                 // Log error here since request failed
-                Log.e("Error:______________", t.toString());
+                Log.e("GET MENU ERROR", t.toString());
                 Toast.makeText(getContext(),t.toString(),Toast.LENGTH_LONG).show();
             }
         });

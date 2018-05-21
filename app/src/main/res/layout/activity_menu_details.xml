@@ -50,7 +50,7 @@
             <ImageView
                 android:id="@+id/iv_food1"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="225dp"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/banhkhoai"
@@ -63,7 +63,7 @@
                     android:layout_weight="1"
                     android:id="@+id/iv_food2"
                     android:layout_width="0dp"
-                    android:layout_height="200dp"
+                    android:layout_height="225dp"
                     android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/banhkhoai"
@@ -73,7 +73,7 @@
                     android:layout_weight="1"
                     android:id="@+id/iv_food3"
                     android:layout_width="0dp"
-                    android:layout_height="200dp"
+                    android:layout_height="225dp"
                     android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/banhkhoai" />
@@ -118,7 +118,7 @@
                 android:textColor="@color/colorBlack"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textStyle="bold|italic"
+                android:textStyle="italic"
                 android:text="@string/menu_notice"
                 android:textSize="16sp" />
         </LinearLayout>

@@ -42,6 +42,16 @@ public class MenuDetailsActivity extends AppCompatActivity{
         ivFood2 = findViewById(R.id.iv_food2);
         ivFood3 = findViewById(R.id.iv_food3);
 
+        //open foodDetail onclick image
+        ivFood1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getBaseContext(),FoodDetailsActivity.class);
+                i.putExtra("FoodId", menuDetails.getFoodId1());
+                startActivity(i);
+            }
+        });
+
         //btnBack
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,20 +71,26 @@ public class MenuDetailsActivity extends AppCompatActivity{
         tvCookTime.setText(menuDetails.getCookingTime());
         tvDescription.setText(menuDetails.getDescription());
 
+        if(menuDetails.getFoodId3() < 1){
+            ivFood3.setVisibility(View.GONE);
+        }
+        if(menuDetails.getFoodId2() < 1){
+            ivFood2.setVisibility(View.GONE);
+        }
         //set food image
-        if (menuDetails.getFoodImage1() != null)
+        if (!menuDetails.getFoodImage1().isEmpty())
             Picasso.with(getBaseContext())
                     .load(menuDetails.getFoodImage1())
                     .fit()
                     .centerCrop()
                     .into(ivFood1);
-        if (menuDetails.getFoodImage2() != null)
+        if (!menuDetails.getFoodImage2().isEmpty())
             Picasso.with(getBaseContext())
                     .load(menuDetails.getFoodImage2())
                     .fit()
                     .centerCrop()
                     .into(ivFood2);
-        if (menuDetails.getFoodImage3() != null)
+        if (!menuDetails.getFoodImage3().isEmpty())
             Picasso.with(getBaseContext())
                     .load(menuDetails.getFoodImage3())
                     .fit()
