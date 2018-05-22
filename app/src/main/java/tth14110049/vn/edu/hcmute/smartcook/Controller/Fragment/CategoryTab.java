@@ -1,6 +1,7 @@
 package tth14110049.vn.edu.hcmute.smartcook.Controller.Fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -24,7 +25,6 @@ import tth14110049.vn.edu.hcmute.smartcook.Model.Category;
 import tth14110049.vn.edu.hcmute.smartcook.R;
 
 import static tth14110049.vn.edu.hcmute.smartcook.Controller.Activity.MainActivity.internetErrorLayout;
-import static tth14110049.vn.edu.hcmute.smartcook.Controller.Activity.MainActivity.loadingDialog;
 
 /**
  * Created by Hao Tran Thien on 5/8/2018.
@@ -73,7 +73,6 @@ public class CategoryTab extends Fragment {
     }
 
     private void prepareData() {
-        loadingDialog.show();
         Call<List<Category>> call = apiService.getCategories();
         call.enqueue(new Callback<List<Category>>() {
             @Override
@@ -83,14 +82,13 @@ public class CategoryTab extends Fragment {
                 //Toast.makeText(getContext(),""+listCategory.size(),Toast.LENGTH_LONG).show();
                 categoryAdapter = new CategoryAdapter(getContext(),listCategory);
                 recyclerCategory.setAdapter(categoryAdapter);
-                loadingDialog.dismiss();
+                //   loadingDialog.dismiss();
             }
             @Override
             public void onFailure(Call<List<Category>>call, Throwable t) {
                 // Log error here since request failed
                 Log.e("GET CATEGORY ERROR", t.toString());
                 internetErrorLayout.setVisibility(View.VISIBLE);
-                loadingDialog.dismiss();
             }
         });
     }

@@ -68,6 +68,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
             public void onClick(View view) {
                 Intent intent = new Intent(context, MenuDetailsActivity.class);
                 intent.putExtra("Menu", menu);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
         });

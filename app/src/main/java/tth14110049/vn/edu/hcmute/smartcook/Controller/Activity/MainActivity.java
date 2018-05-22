@@ -30,7 +30,6 @@ import tth14110049.vn.edu.hcmute.smartcook.R;
 public class MainActivity extends FragmentActivity {
     private TabHost mainTabHost;
     private ViewPager pager;
-    public static ACProgressFlower loadingDialog;
     public static RelativeLayout internetErrorLayout;
     private class TabFactory implements TabHost.TabContentFactory {
         private final Context mContext;
@@ -57,6 +56,9 @@ public class MainActivity extends FragmentActivity {
         pager = findViewById(R.id.viewpager);
         Button btnReload = findViewById(R.id.btn_reload);
         internetErrorLayout = findViewById(R.id.layout_internet_error);
+
+        //turn off auto reload fragment on tab change
+        pager.setOffscreenPageLimit(3);
 
         //btnReload
         btnReload.setOnClickListener(new View.OnClickListener() {
@@ -124,14 +126,6 @@ public class MainActivity extends FragmentActivity {
         //setCurrentTab
         mainTabHost.setCurrentTab(0);
 
-        //initialize loading dialog
-        loadingDialog = new ACProgressFlower.Builder(MainActivity.this)
-                .direction(ACProgressConstant.DIRECT_CLOCKWISE)
-                .themeColor(Color.WHITE)
-                .text("Loading data")
-                .fadeColor(Color.DKGRAY).build();
-        loadingDialog.setCanceledOnTouchOutside(false);
-        loadingDialog.setCancelable(false);
     }
 
     private static void AddTab(MainActivity activity,

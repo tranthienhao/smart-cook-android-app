@@ -19,6 +19,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import tth14110049.vn.edu.hcmute.smartcook.Controller.Activity.AllMenuActivity;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Activity.WeeklyMenuActivity;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.MenuAdapter;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Retrofit2.ApiClient;
@@ -33,7 +34,7 @@ import static tth14110049.vn.edu.hcmute.smartcook.Controller.Activity.MainActivi
  */
 
 public class MenuTab extends Fragment {
-    private Button btnCreateWeeklyMenu;
+    private Button btnCreateWeeklyMenu, btnViewMore;
     private RecyclerView recyclerMenu;
     private List<Menu> listMenu = new ArrayList<>();
     private MenuAdapter menuAdapter;
@@ -44,6 +45,7 @@ public class MenuTab extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setRetainInstance(true);
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_menu_tab, container, false);
 
@@ -51,6 +53,7 @@ public class MenuTab extends Fragment {
         recyclerMenu = view.findViewById(R.id.list_menu);
         btnCreateWeeklyMenu = view.findViewById(R.id.btn_create_weekly_menu);
         swipeRefreshLayout =  view.findViewById(R.id.swipeRefreshLayout);
+        btnViewMore = view.findViewById(R.id.btn_view_more);
 
         //SwipeRefreshLayout
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -76,13 +79,22 @@ public class MenuTab extends Fragment {
                 startActivity(new Intent(getContext(), WeeklyMenuActivity.class));
             }
         });
+
+        //btnViewMore
+        btnViewMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), AllMenuActivity.class));
+            }
+        });
+
         //set data
         prepareData();
 
         return view;
     }
     private void prepareData() {
-        Call<List<Menu>> call = apiService.getMenus();
+        Call<List<Menu>> call = apiService.getRandomMenus();
         call.enqueue(new Callback<List<Menu>>() {
             @Override
             public void onResponse(Call<List<Menu>> call, Response<List<Menu>> response) {

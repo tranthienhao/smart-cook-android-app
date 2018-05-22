@@ -25,6 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Activity.GetFoodByCategoryActivity;
+import tth14110049.vn.edu.hcmute.smartcook.Controller.Activity.MainActivity;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.FoodSuggessionFragmentPagerAdapter;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.FoodAdapter;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Retrofit2.ApiClient;
@@ -33,7 +34,6 @@ import tth14110049.vn.edu.hcmute.smartcook.Model.Food;
 import tth14110049.vn.edu.hcmute.smartcook.R;
 
 import static tth14110049.vn.edu.hcmute.smartcook.Controller.Activity.MainActivity.internetErrorLayout;
-import static tth14110049.vn.edu.hcmute.smartcook.Controller.Activity.MainActivity.loadingDialog;
 
 /**
  * Created by Hao Tran Thien on 5/8/2018.
@@ -49,10 +49,12 @@ public class FoodTab extends Fragment {
     ApiInterface apiService;
     private View view;
     SwipeRefreshLayout swipeRefreshLayout;
+    private ACProgressFlower loadingDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setRetainInstance(true);
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_food_tab, container, false);
 
@@ -70,6 +72,15 @@ public class FoodTab extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+
+        //initialize loading dialog
+        loadingDialog = new ACProgressFlower.Builder(getContext())
+                .direction(ACProgressConstant.DIRECT_CLOCKWISE)
+                .themeColor(Color.WHITE)
+                .text("Loading data")
+                .fadeColor(Color.DKGRAY).build();
+        loadingDialog.setCanceledOnTouchOutside(false);
+        loadingDialog.setCancelable(false);
 
         //recyclerFood init
         recyclerFood.setLayoutManager(new GridLayoutManager(getContext(), 1));
@@ -98,7 +109,7 @@ public class FoodTab extends Fragment {
     }
     private void prepareData() {
         loadingDialog.show();
-        Call<List<Food>> call = apiService.getFoods();
+        Call<List<Food>> call = apiService.getRandomFoods();
         call.enqueue(new Callback<List<Food>>() {
             @Override
             public void onResponse(Call<List<Food>>call, Response<List<Food>> response) {
@@ -107,7 +118,21 @@ public class FoodTab extends Fragment {
                 //Toast.makeText(getContext(),""+listFood.size(),Toast.LENGTH_LONG).show();
                 foodAdapter = new FoodAdapter(getContext(),listFood);
                 recyclerFood.setAdapter(foodAdapter);
-
+            }
+            @Override
+            public void onFailure(Call<List<Food>>call, Throwable t) {
+                // Log error here since request failed
+                Log.e("GET FOOD ERROR", t.toString());
+                internetErrorLayout.setVisibility(View.VISIBLE);
+                //Toast.makeText(getContext(),t.toString(),Toast.LENGTH_LONG).show();
+            }
+        });
+        // get suggession food
+        Call<List<Food>> callSuggessFood = apiService.getRandomFoods();
+        callSuggessFood.enqueue(new Callback<List<Food>>() {
+            @Override
+            public void onResponse(Call<List<Food>>call, Response<List<Food>> response) {
+                listFood = response.body();
                 //food suggession adapter
                 pagerAdapter = new FoodSuggessionFragmentPagerAdapter(FoodTab.this.getChildFragmentManager()
                         , dpToPixels(2, getContext()), listFood);

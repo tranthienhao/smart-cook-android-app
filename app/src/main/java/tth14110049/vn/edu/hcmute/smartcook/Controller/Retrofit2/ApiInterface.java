@@ -19,11 +19,19 @@ public interface ApiInterface {
     @GET("get_categories.php")
     Call<List<Category>> getCategories();
 
-    @GET("get_foods.php")
-    Call<List<Food>> getFoods();
+    @GET("get_random_foods.php")
+    Call<List<Food>> getRandomFoods();
 
-    @GET("get_menus.php")
-    Call<List<Menu>> getMenus();
+    @GET("get_random_menus.php")
+    Call<List<Menu>> getRandomMenus();
+
+    @FormUrlEncoded
+    @POST("get_foods.php")
+    Call<List<Food>> getFoods(@Field("Skip") int skip);
+
+    @FormUrlEncoded
+    @POST("get_menus.php")
+    Call<List<Menu>> getMenus(@Field("Skip") int skip);
 
     @GET("get_weekly_menu.php")
     Call<List<Menu>> getWeeklyMenus();
@@ -34,8 +42,7 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("get_food_by_category.php")
-    Call<List<Food>> getFoodByCategory(@Field("CategoryId") int CategoryId);
+    Call<List<Food>> getFoodByCategory(@Field("CategoryId") int CategoryId,
+                                       @Field("Skip") int skip);
 
-//    @GET("movie/{id}")
-//    Call<MoviesResponse> getMovieDetails(@Path("id") int id, @Query("api_key") String apiKey);
 }

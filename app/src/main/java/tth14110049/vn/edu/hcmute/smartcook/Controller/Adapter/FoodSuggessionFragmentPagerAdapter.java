@@ -24,7 +24,7 @@ public class FoodSuggessionFragmentPagerAdapter extends FragmentStatePagerAdapte
         mFragments = new ArrayList<>();
         mBaseElevation = baseElevation;
 
-        for(int i = 0; i< 4; i++){
+        for(int i = 0; i< listFood.size(); i++){
             CardFragment cardFragment = new CardFragment();
             Bundle args = new Bundle();
             args.putSerializable("Food", listFood.get(i));

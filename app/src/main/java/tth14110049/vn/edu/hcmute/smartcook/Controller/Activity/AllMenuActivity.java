@@ -2,9 +2,9 @@ package tth14110049.vn.edu.hcmute.smartcook.Controller.Activity;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,23 +22,20 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.FoodAdapter;
+import tth14110049.vn.edu.hcmute.smartcook.Controller.Adapter.MenuAdapter;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Retrofit2.ApiClient;
 import tth14110049.vn.edu.hcmute.smartcook.Controller.Retrofit2.ApiInterface;
 import tth14110049.vn.edu.hcmute.smartcook.Model.Food;
+import tth14110049.vn.edu.hcmute.smartcook.Model.Menu;
 import tth14110049.vn.edu.hcmute.smartcook.R;
 
-/**
- * Created by Hao Tran Thien on 5/8/2018.
- */
+public class AllMenuActivity extends AppCompatActivity {
 
-public class GetFoodByCategoryActivity extends AppCompatActivity {
     ImageButton btnBack;
-    TextView tvCategoryName;
-    int categoryId;
-    String categoryName;
-    private RecyclerView recyclerFood;
-    private List<Food> listFood = new ArrayList<>();
-    private FoodAdapter foodAdapter;
+    TextView tvMenu;
+    private RecyclerView recyclerMenu;
+    private List<Menu> listMenu = new ArrayList<>();
+    private MenuAdapter menuAdapter;
     ACProgressFlower loadingDialog;
     ApiInterface apiService;
     SwipeRefreshLayout swipeRefreshLayout;
@@ -48,12 +45,12 @@ public class GetFoodByCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_get_food_by_category);
+        setContentView(R.layout.activity_all_menu);
 
         //set the view
         btnBack = findViewById(R.id.btn_back);
-        tvCategoryName = findViewById(R.id.tv_toolbar_category_name);
-        recyclerFood = findViewById(R.id.list_food);
+        tvMenu = findViewById(R.id.tv_toolbar_menu);
+        recyclerMenu = findViewById(R.id.list_menu);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
 
         //SwipeRefreshLayout
@@ -62,26 +59,21 @@ public class GetFoodByCategoryActivity extends AppCompatActivity {
             public void onRefresh() {
                 skip = 0;
                 isNoMoreFood = false;
-                listFood.clear();
+                listMenu.clear();
                 prepareData();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
 
-        //get extra
-        Intent intent = getIntent();
-        categoryId = intent.getIntExtra("CategoryId", -1);
-        categoryName = intent.getStringExtra("CategoryName");
-
         //get ApiInterface
         apiService = ApiClient.getClient().create(ApiInterface.class);
 
         //recyclerFood init
-        recyclerFood.setLayoutManager(new GridLayoutManager(getBaseContext(), 1));
-        foodAdapter = new FoodAdapter(getBaseContext(), listFood);
-        recyclerFood.setNestedScrollingEnabled(false);
-        recyclerFood.setAdapter(foodAdapter);
-        recyclerFood.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        recyclerMenu.setLayoutManager(new GridLayoutManager(getBaseContext(), 1));
+        menuAdapter = new MenuAdapter(getBaseContext(), listMenu);
+        recyclerMenu.setNestedScrollingEnabled(true);
+        recyclerMenu.setAdapter(menuAdapter);
+        recyclerMenu.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -96,7 +88,6 @@ public class GetFoodByCategoryActivity extends AppCompatActivity {
             }
         });
 
-
         //btnBack
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +97,7 @@ public class GetFoodByCategoryActivity extends AppCompatActivity {
         });
 
         //initialize loading dialog
-        loadingDialog = new ACProgressFlower.Builder(GetFoodByCategoryActivity.this)
+        loadingDialog = new ACProgressFlower.Builder(AllMenuActivity.this)
                 .direction(ACProgressConstant.DIRECT_CLOCKWISE)
                 .themeColor(Color.WHITE)
                 .text("Loading data")
@@ -119,39 +110,29 @@ public class GetFoodByCategoryActivity extends AppCompatActivity {
     }
 
     private void prepareData() {
-
         loadingDialog.show();
-        Call<List<Food>> call;
-        if (categoryId > 0) {
-            //set data with food by category
-            tvCategoryName.setText(categoryName);
-            call = apiService.getFoodByCategory(categoryId, skip);
-        } else {
-            //set data with all food
-            tvCategoryName.setText("Tất cả món ăn");
-            call = apiService.getFoods(skip);
-        }
-        call.enqueue(new Callback<List<Food>>() {
+        tvMenu.setText("Tất cả thực đơn");
+        Call<List<Menu>> call = apiService.getMenus(skip);
+        call.enqueue(new Callback<List<Menu>>() {
             @Override
-            public void onResponse(Call<List<Food>> call, Response<List<Food>> response) {
+            public void onResponse(Call<List<Menu>> call, Response<List<Menu>> response) {
                 if (!response.body().isEmpty()) {
-                    listFood.addAll(response.body());
-                    foodAdapter = new FoodAdapter(getBaseContext(), listFood);
-                    recyclerFood.setAdapter(foodAdapter);
+                    listMenu.addAll(response.body());
+                    menuAdapter = new MenuAdapter(getBaseContext(), listMenu);
+                    recyclerMenu.setAdapter(menuAdapter);
                     //scroll to bottom
-                    int position = recyclerFood.getAdapter().getItemCount() - 1 - response.body().size();
+                    int position = recyclerMenu.getAdapter().getItemCount() - 1 - response.body().size();
                     if (skip != 0)
-                        recyclerFood.scrollToPosition(position);
+                        recyclerMenu.scrollToPosition(position);
                 } else {
-                    Toast.makeText(getBaseContext(), "Không còn món ăn", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), "Không còn thực đơn", Toast.LENGTH_LONG).show();
                     isNoMoreFood = true;
                 }
                 //dismiss loading dialog
                 loadingDialog.dismiss();
             }
-
             @Override
-            public void onFailure(Call<List<Food>> call, Throwable t) {
+            public void onFailure(Call<List<Menu>> call, Throwable t) {
                 // Log error here since request failed
                 Log.e("Error:______________", t.toString());
                 Toast.makeText(getBaseContext(), t.toString(), Toast.LENGTH_LONG).show();

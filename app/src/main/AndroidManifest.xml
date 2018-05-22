@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Controller.Activity.SplashScreenActivity"
+        <activity
+            android:name=".Controller.Activity.SplashScreenActivity"
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,11 +20,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Controller.Activity.MainActivity"/>
+        <activity android:name=".Controller.Activity.MainActivity" />
         <activity android:name=".Controller.Activity.FoodDetailsActivity" />
         <activity android:name=".Controller.Activity.GetFoodByCategoryActivity" />
         <activity android:name=".Controller.Activity.MenuDetailsActivity" />
         <activity android:name=".Controller.Activity.WeeklyMenuActivity" />
+        <activity android:name=".Controller.Activity.AllMenuActivity"></activity>
     </application>
 
 </manifest>
