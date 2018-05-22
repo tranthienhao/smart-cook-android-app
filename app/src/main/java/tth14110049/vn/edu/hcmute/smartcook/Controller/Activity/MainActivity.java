@@ -1,6 +1,7 @@
 package tth14110049.vn.edu.hcmute.smartcook.Controller.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -9,7 +10,9 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -28,6 +31,7 @@ public class MainActivity extends FragmentActivity {
     private TabHost mainTabHost;
     private ViewPager pager;
     public static ACProgressFlower loadingDialog;
+    public static RelativeLayout internetErrorLayout;
     private class TabFactory implements TabHost.TabContentFactory {
         private final Context mContext;
 
@@ -51,7 +55,20 @@ public class MainActivity extends FragmentActivity {
         //set the view
         mainTabHost = findViewById(android.R.id.tabhost);
         pager = findViewById(R.id.viewpager);
+        Button btnReload = findViewById(R.id.btn_reload);
+        internetErrorLayout = findViewById(R.id.layout_internet_error);
 
+        //btnReload
+        btnReload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Refresh main activity upon close of dialog box
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(getIntent());
+                overridePendingTransition(0, 0);
+            }
+        });
         //
 
         mainTabHost.setup();
@@ -78,7 +95,6 @@ public class MainActivity extends FragmentActivity {
         mainTabHost.getTabWidget().getChildTabViewAt(0).setBackground(null);
         mainTabHost.getTabWidget().getChildTabViewAt(1).setBackground(null);
         mainTabHost.getTabWidget().getChildTabViewAt(2).setBackground(null);
-
 
         //OnTabChangedListener
         mainTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {

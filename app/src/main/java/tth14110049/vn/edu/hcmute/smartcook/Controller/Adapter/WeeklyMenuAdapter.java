@@ -93,11 +93,13 @@ public class WeeklyMenuAdapter extends RecyclerView.Adapter<WeeklyMenuAdapter.We
         }
         if (!menu.getFoodImage2().isEmpty()) {
             Picasso.with(context).load(menu.getFoodImage2()).fit().centerCrop().into(holder.ivFood2);
+            holder.ivFood2.setVisibility(View.VISIBLE);
         } else {
             holder.ivFood2.setVisibility(View.GONE);
         }
         if (!menu.getFoodImage3().isEmpty()) {
             Picasso.with(context).load(menu.getFoodImage3()).fit().centerCrop().into(holder.ivFood3);
+            holder.ivFood3.setVisibility(View.VISIBLE);
         } else {
             holder.ivFood3.setVisibility(View.GONE);
         }

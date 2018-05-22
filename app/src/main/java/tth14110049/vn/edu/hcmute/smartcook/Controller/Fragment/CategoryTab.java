@@ -2,6 +2,7 @@ package tth14110049.vn.edu.hcmute.smartcook.Controller.Fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,6 +23,7 @@ import tth14110049.vn.edu.hcmute.smartcook.Controller.Retrofit2.ApiInterface;
 import tth14110049.vn.edu.hcmute.smartcook.Model.Category;
 import tth14110049.vn.edu.hcmute.smartcook.R;
 
+import static tth14110049.vn.edu.hcmute.smartcook.Controller.Activity.MainActivity.internetErrorLayout;
 import static tth14110049.vn.edu.hcmute.smartcook.Controller.Activity.MainActivity.loadingDialog;
 
 /**
@@ -34,6 +36,7 @@ public class CategoryTab extends Fragment {
     private CategoryAdapter categoryAdapter;
     ApiInterface apiService;
     private View view;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,6 +46,16 @@ public class CategoryTab extends Fragment {
 
         //set the view
         recyclerCategory = view.findViewById(R.id.list_category);
+        swipeRefreshLayout =  view.findViewById(R.id.swipeRefreshLayout);
+
+        //SwipeRefreshLayout
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                prepareData();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         // recyclerCategory init
         recyclerCategory.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -76,7 +89,8 @@ public class CategoryTab extends Fragment {
             public void onFailure(Call<List<Category>>call, Throwable t) {
                 // Log error here since request failed
                 Log.e("GET CATEGORY ERROR", t.toString());
-                Toast.makeText(getContext(),t.toString(),Toast.LENGTH_LONG).show();
+                internetErrorLayout.setVisibility(View.VISIBLE);
+                loadingDialog.dismiss();
             }
         });
     }

@@ -33,7 +33,6 @@
             android:src="@drawable/right_line"
             android:scaleType="centerCrop"
             android:padding="20dp"/>
-            />
     </LinearLayout>
     <LinearLayout
         android:layout_below="@id/layout_day_of_week"
@@ -46,19 +45,22 @@
             android:id="@+id/iv_food1"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="250dp" />
+            android:layout_height="250dp"
+            />
         <ImageView
             android:id="@+id/iv_food2"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="250dp"
             android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp" />
+            android:layout_marginRight="1dp"
+            android:visibility="gone"/>
         <ImageView
             android:id="@+id/iv_food3"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="250dp"/>
+            android:layout_height="250dp"
+            android:visibility="gone"/>
     </LinearLayout>
     <TextView
         android:id="@+id/tv_meal"

@@ -52,6 +52,24 @@ public class MenuDetailsActivity extends AppCompatActivity{
             }
         });
 
+        ivFood2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getBaseContext(),FoodDetailsActivity.class);
+                i.putExtra("FoodId", menuDetails.getFoodId2());
+                startActivity(i);
+            }
+        });
+
+        ivFood3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getBaseContext(),FoodDetailsActivity.class);
+                i.putExtra("FoodId", menuDetails.getFoodId3());
+                startActivity(i);
+            }
+        });
+
         //btnBack
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override

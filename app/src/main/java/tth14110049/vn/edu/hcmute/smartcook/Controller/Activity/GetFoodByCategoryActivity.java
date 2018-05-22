@@ -3,6 +3,7 @@ package tth14110049.vn.edu.hcmute.smartcook.Controller.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,6 +41,7 @@ public class GetFoodByCategoryActivity extends AppCompatActivity{
     private FoodAdapter foodAdapter;
     ACProgressFlower loadingDialog;
     ApiInterface apiService;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,16 @@ public class GetFoodByCategoryActivity extends AppCompatActivity{
         btnBack = findViewById(R.id.btn_back);
         tvCategoryName = findViewById(R.id.tv_toolbar_category_name);
         recyclerFood = findViewById(R.id.list_food);
+        swipeRefreshLayout =  findViewById(R.id.swipeRefreshLayout);
+
+        //SwipeRefreshLayout
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                prepareData();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         //get extra
         Intent intent = getIntent();

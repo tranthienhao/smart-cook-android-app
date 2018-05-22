@@ -16,6 +16,8 @@
     <string name="menu_notice">Bạn hãy ấn vào hình để xem công thức cụ thể cho từng món nhé!</string>
     <string name="view_more">Xem thêm</string>
     <string name="weekly_menu">Thực đơn tuần</string>
+    <string name="reload">Tải lại</string>
+    <string name="internet_error">Xảy ra lỗi trong quá trình tải.\n Vui lòng kiểm tra kết nối Internet của bạn!</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

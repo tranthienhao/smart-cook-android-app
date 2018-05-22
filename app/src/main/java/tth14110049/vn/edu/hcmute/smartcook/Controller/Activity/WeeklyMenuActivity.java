@@ -1,6 +1,7 @@
 package tth14110049.vn.edu.hcmute.smartcook.Controller.Activity;
 
 import android.graphics.Color;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -32,6 +33,7 @@ public class WeeklyMenuActivity extends AppCompatActivity {
     private List<Menu> listMenu = new ArrayList<>();
     private ApiInterface apiService;
     ACProgressFlower loadingDialog;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,17 @@ public class WeeklyMenuActivity extends AppCompatActivity {
         //set the view
         btnBack= findViewById(R.id.btn_back);
         recyclerMenu = findViewById(R.id.list_menu);
+        swipeRefreshLayout =  findViewById(R.id.swipeRefreshLayout);
+
+        //SwipeRefreshLayout
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                prepareData();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
 
         //setup recycler
         recyclerMenu.setLayoutManager(new GridLayoutManager(getBaseContext(), 1));

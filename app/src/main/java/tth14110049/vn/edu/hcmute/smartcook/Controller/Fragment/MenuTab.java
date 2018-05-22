@@ -3,6 +3,7 @@ package tth14110049.vn.edu.hcmute.smartcook.Controller.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,6 +26,8 @@ import tth14110049.vn.edu.hcmute.smartcook.Controller.Retrofit2.ApiInterface;
 import tth14110049.vn.edu.hcmute.smartcook.Model.Menu;
 import tth14110049.vn.edu.hcmute.smartcook.R;
 
+import static tth14110049.vn.edu.hcmute.smartcook.Controller.Activity.MainActivity.internetErrorLayout;
+
 /**
  * Created by Hao Tran Thien on 5/8/2018.
  */
@@ -36,6 +39,7 @@ public class MenuTab extends Fragment {
     private MenuAdapter menuAdapter;
     private View view;
     private ApiInterface apiService;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,6 +50,16 @@ public class MenuTab extends Fragment {
         //set the view
         recyclerMenu = view.findViewById(R.id.list_menu);
         btnCreateWeeklyMenu = view.findViewById(R.id.btn_create_weekly_menu);
+        swipeRefreshLayout =  view.findViewById(R.id.swipeRefreshLayout);
+
+        //SwipeRefreshLayout
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                prepareData();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         //setup recycler
         recyclerMenu.setLayoutManager(new GridLayoutManager(getContext(), 1));
@@ -81,7 +95,7 @@ public class MenuTab extends Fragment {
             public void onFailure(Call<List<Menu>> call, Throwable t) {
                 // Log error here since request failed
                 Log.e("GET MENU ERROR", t.toString());
-                Toast.makeText(getContext(),t.toString(),Toast.LENGTH_LONG).show();
+                internetErrorLayout.setVisibility(View.VISIBLE);
             }
         });
     }

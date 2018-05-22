@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -31,6 +32,7 @@ import tth14110049.vn.edu.hcmute.smartcook.Controller.Retrofit2.ApiInterface;
 import tth14110049.vn.edu.hcmute.smartcook.Model.Food;
 import tth14110049.vn.edu.hcmute.smartcook.R;
 
+import static tth14110049.vn.edu.hcmute.smartcook.Controller.Activity.MainActivity.internetErrorLayout;
 import static tth14110049.vn.edu.hcmute.smartcook.Controller.Activity.MainActivity.loadingDialog;
 
 /**
@@ -46,6 +48,7 @@ public class FoodTab extends Fragment {
     private FoodAdapter foodAdapter;
     ApiInterface apiService;
     private View view;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +60,16 @@ public class FoodTab extends Fragment {
         foodSuggessionPager = view.findViewById(R.id.food_suggesstion_viewpager);
         recyclerFood = view.findViewById(R.id.list_food);
         btnViewMore = view.findViewById(R.id.btn_view_more);
+        swipeRefreshLayout =  view.findViewById(R.id.swipeRefreshLayout);
+
+        //SwipeRefreshLayout
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                prepareData();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         //recyclerFood init
         recyclerFood.setLayoutManager(new GridLayoutManager(getContext(), 1));
@@ -67,7 +80,6 @@ public class FoodTab extends Fragment {
         //get ApiInterface
         apiService = ApiClient.getClient().create(ApiInterface.class);
 
-        loadingDialog.show();
         //set data
         prepareData();
 
@@ -85,6 +97,7 @@ public class FoodTab extends Fragment {
         return dp * (context.getResources().getDisplayMetrics().density);
     }
     private void prepareData() {
+        loadingDialog.show();
         Call<List<Food>> call = apiService.getFoods();
         call.enqueue(new Callback<List<Food>>() {
             @Override
@@ -108,8 +121,9 @@ public class FoodTab extends Fragment {
             public void onFailure(Call<List<Food>>call, Throwable t) {
                 // Log error here since request failed
                 Log.e("GET FOOD ERROR", t.toString());
-                Toast.makeText(getContext(),t.toString(),Toast.LENGTH_LONG).show();
-                loadingDialog.show();
+                internetErrorLayout.setVisibility(View.VISIBLE);
+                loadingDialog.dismiss();
+                //Toast.makeText(getContext(),t.toString(),Toast.LENGTH_LONG).show();
             }
         });
     }
