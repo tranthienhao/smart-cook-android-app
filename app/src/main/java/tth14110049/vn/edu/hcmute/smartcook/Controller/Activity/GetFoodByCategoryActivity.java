@@ -39,7 +39,6 @@ public class GetFoodByCategoryActivity extends AppCompatActivity {
     private RecyclerView recyclerFood;
     private List<Food> listFood = new ArrayList<>();
     private FoodAdapter foodAdapter;
-    ACProgressFlower loadingDialog;
     ApiInterface apiService;
     SwipeRefreshLayout swipeRefreshLayout;
     int skip = 0; // giá trị ban đầu để skip
@@ -105,7 +104,13 @@ public class GetFoodByCategoryActivity extends AppCompatActivity {
             }
         });
 
+        //set data
+        prepareData();
+    }
+
+    private void prepareData() {
         //initialize loading dialog
+        final ACProgressFlower loadingDialog;
         loadingDialog = new ACProgressFlower.Builder(GetFoodByCategoryActivity.this)
                 .direction(ACProgressConstant.DIRECT_CLOCKWISE)
                 .themeColor(Color.WHITE)
@@ -113,14 +118,8 @@ public class GetFoodByCategoryActivity extends AppCompatActivity {
                 .fadeColor(Color.DKGRAY).build();
         loadingDialog.setCanceledOnTouchOutside(false);
         loadingDialog.setCancelable(false);
-
-        //set data
-        prepareData();
-    }
-
-    private void prepareData() {
-
         loadingDialog.show();
+
         Call<List<Food>> call;
         if (categoryId > 0) {
             //set data with food by category

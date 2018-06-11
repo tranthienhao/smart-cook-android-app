@@ -36,7 +36,6 @@ public class AllMenuActivity extends AppCompatActivity {
     private RecyclerView recyclerMenu;
     private List<Menu> listMenu = new ArrayList<>();
     private MenuAdapter menuAdapter;
-    ACProgressFlower loadingDialog;
     ApiInterface apiService;
     SwipeRefreshLayout swipeRefreshLayout;
     int skip = 0; // giá trị ban đầu để skip
@@ -96,7 +95,13 @@ public class AllMenuActivity extends AppCompatActivity {
             }
         });
 
+        //set data
+        prepareData();
+    }
+
+    private void prepareData() {
         //initialize loading dialog
+        final ACProgressFlower loadingDialog;
         loadingDialog = new ACProgressFlower.Builder(AllMenuActivity.this)
                 .direction(ACProgressConstant.DIRECT_CLOCKWISE)
                 .themeColor(Color.WHITE)
@@ -104,29 +109,27 @@ public class AllMenuActivity extends AppCompatActivity {
                 .fadeColor(Color.DKGRAY).build();
         loadingDialog.setCanceledOnTouchOutside(false);
         loadingDialog.setCancelable(false);
-
-        //set data
-        prepareData();
-    }
-
-    private void prepareData() {
         loadingDialog.show();
+
+
         tvMenu.setText("Tất cả thực đơn");
         Call<List<Menu>> call = apiService.getMenus(skip);
         call.enqueue(new Callback<List<Menu>>() {
             @Override
             public void onResponse(Call<List<Menu>> call, Response<List<Menu>> response) {
-                if (!response.body().isEmpty()) {
-                    listMenu.addAll(response.body());
-                    menuAdapter = new MenuAdapter(getBaseContext(), listMenu);
-                    recyclerMenu.setAdapter(menuAdapter);
-                    //scroll to bottom
-                    int position = recyclerMenu.getAdapter().getItemCount() - 1 - response.body().size();
-                    if (skip != 0)
-                        recyclerMenu.scrollToPosition(position);
-                } else {
-                    Toast.makeText(getBaseContext(), "Không còn thực đơn", Toast.LENGTH_LONG).show();
-                    isNoMoreFood = true;
+                if(response != null) {
+                    if (!response.body().isEmpty()) {
+                        listMenu.addAll(response.body());
+                        menuAdapter = new MenuAdapter(getBaseContext(), listMenu);
+                        recyclerMenu.setAdapter(menuAdapter);
+                        //scroll to bottom
+                        int position = recyclerMenu.getAdapter().getItemCount() - 1 - response.body().size();
+                        if (skip != 0)
+                            recyclerMenu.scrollToPosition(position);
+                    } else {
+                        Toast.makeText(getBaseContext(), "Không còn thực đơn", Toast.LENGTH_LONG).show();
+                        isNoMoreFood = true;
+                    }
                 }
                 //dismiss loading dialog
                 loadingDialog.dismiss();
